@@ -10,37 +10,19 @@ public class User {
     private Long age;
     private List<Announcement> announcementList;
 
-    public User(Long id, String email, String username, Long age, String password) {
-        this.id = id;
-        this.email = email;
-        this.username = username;
-        this.age = age;
-        this.password = password;
-
+    private User(Builder builder) {
+        this.id = builder.id;
+        this.email = builder.email;
+        this.username = builder.username;
+        this.password = builder.password;
+        this.age = builder.age;
+        this.announcementList = builder.announcementList;
     }
 
-    public User() {
+    @Override
+    public String toString() {
+        return "User : " + id + " " + email + " " + username + " " + age + " " + password;
 
-    }
-
-    public void setAge(Long age) {
-        this.age = age;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public Long getId() {
@@ -63,9 +45,52 @@ public class User {
         return password;
     }
 
-    @Override
-    public String toString() {
-        return "User : " + id + " " + email + " " + username + " " + age + " " + password;
+    public static class Builder {
+        private Long id;
+        private String email;
+        private String username;
+        private String password;
+        private Long age;
+        private List<Announcement> announcementList;
 
+        public Builder setAge(Long age) {
+            this.age = age;
+            return this;
+        }
+
+        public Builder setAnnouncementList(List<Announcement> announcementList) {
+            this.announcementList = announcementList;
+            return this;
+
+        }
+
+        public Builder setEmail(String email) {
+            this.email = email;
+            return this;
+
+        }
+
+        public Builder setId(Long id) {
+            this.id = id;
+            return this;
+
+        }
+
+        public Builder setPassword(String password) {
+            this.password = password;
+            return this;
+
+        }
+
+        public Builder setUsername(String username) {
+            this.username = username;
+            return this;
+
+        }
+
+        public User build() {
+            return new User(this);
+        }
     }
 }
+
