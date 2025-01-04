@@ -1,5 +1,7 @@
 package model.response;
 
+import entity.Announcement;
+
 public class UserCreateResponse {
 
     private Long id;
@@ -7,31 +9,18 @@ public class UserCreateResponse {
     private String username;
     private Long age;
 
-    public UserCreateResponse() {
 
+    private UserCreateResponse(Builder builder) {
+        this.id = builder.id;
+        this.email = builder.email;
+        this.username = builder.username;
+        this.age = builder.age;
     }
 
-    public UserCreateResponse(Long id, String email, String username, Long age) {
-        this.id = id;
-        this.email = email;
-        this.username = username;
-        this.age = age;
-    }
+    @Override
+    public String toString() {
+        return "User : " + id + " " + email + " " + username + " " + age;
 
-    public void setAge(Long age) {
-        this.age = age;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public Long getId() {
@@ -50,9 +39,36 @@ public class UserCreateResponse {
         return username;
     }
 
-    @Override
-    public String toString() {
-        return "User : " + id + " " + email + " " + username + " " + age;
+    public static class Builder {
+        private Long id;
+        private String email;
+        private String username;
+        private Long age;
 
+        public Builder setAge(Long age) {
+            this.age = age;
+            return this;
+        }
+
+        public Builder setEmail(String email) {
+            this.email = email;
+            return this;
+
+        }
+
+        public Builder setId(Long id) {
+            this.id = id;
+            return this;
+
+        }
+
+        public Builder setUsername(String username) {
+            this.username = username;
+            return this;
+        }
+
+        public UserCreateResponse build() {
+            return new UserCreateResponse(this);
+        }
     }
 }
