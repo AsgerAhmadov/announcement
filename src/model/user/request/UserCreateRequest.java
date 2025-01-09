@@ -1,4 +1,4 @@
-package model.request;
+package model.user.request;
 
 public class UserCreateRequest {
     private Long id;
