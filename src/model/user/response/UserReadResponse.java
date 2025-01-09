@@ -1,6 +1,4 @@
-package model.response;
-
-import entity.Announcement;
+package model.user.response;
 
 public class UserReadResponse {
     private Long id;
