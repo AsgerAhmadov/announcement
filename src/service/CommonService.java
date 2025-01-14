@@ -8,8 +8,10 @@ import exception.UserNotFoundException;
 import model.announcement.request.AnnouncementCreateRequest;
 import model.announcement.response.AnnouncementCreateResponse;
 import model.user.request.UserCreateRequest;
+import model.user.request.UserUpdateRequest;
 import model.user.response.UserCreateResponse;
 import model.user.response.UserReadResponse;
+import model.user.response.UserUpdateResponse;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -42,7 +44,7 @@ public class CommonService {
         return createResponse;
     }
 
-    public UserReadResponse read(Long id) {
+    public UserReadResponse readUser(Long id) {
         for (User user : users) {
             if (user.getId() != id) {
                 throw new UserNotFoundException(AnnouncementConstraint.user_not_found);
@@ -79,7 +81,7 @@ public class CommonService {
 
     public  AnnouncementCreateResponse createAnnouncement(Long userId , AnnouncementCreateRequest createRequest){
 
-        UserReadResponse user = read(userId);
+        UserReadResponse user = readUser(userId);
         if (user != null ){
             Announcement announcement = new Announcement.Builder()
                     .setId(createRequest.getId())
@@ -100,4 +102,33 @@ public class CommonService {
         }
         throw new UserNotFoundException(AnnouncementConstraint.user_not_found);
     }
+
+    public  UserUpdateResponse updateUser(UserUpdateRequest updateRequest, Long id){
+        UserReadResponse foundUser = readUser(id);
+        UserReadResponse updatedUser = new UserReadResponse.Builder()
+                .setId(foundUser.getId())
+                .setAge(updateRequest.getAge())
+                .setEmail(updateRequest.getEmail())
+                .setUsername(updateRequest.getUsername())
+                .build();
+
+        UserUpdateResponse response = new UserUpdateResponse();
+        response.setAge(updatedUser.getAge());
+        response.setEmail(updatedUser.getEmail());
+        response.setId(updatedUser.getId());
+        response.setUsername(updatedUser.getUsername());
+
+        return response;
+    }
+
+    public void deleteUser(Long id){
+        UserReadResponse foundUser = readUser(id);
+
+        for (User user : users){
+            if (user.getId()== foundUser.getId()){
+                users.remove(user);
+            }
+        }
+    }
+    //announcement ucun update ve delete metodu ,find ol metodu yaz.
 }
