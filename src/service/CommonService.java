@@ -63,8 +63,7 @@ public class CommonService {
         }
         return null;
     }
-//stream read metodu ucun yarat.
-    //getall metodu yarat(stream tetbiq et).
+
 
 
     public static List<UserReadResponse> findAll() {
@@ -134,7 +133,6 @@ public class CommonService {
             }
         }
     }
-    //announcement ucun update ve delete metodu ,find all metodu yaz.
 
     public AnnouncementReadResponse readAnnouncement(Long id) {
         for (Announcement announcement : announcementList) {
@@ -197,6 +195,49 @@ public class CommonService {
             return responseList;
         }
     }
+
+
+    public void userDeleteAnnouncement(Long userId, Long announcementId) {
+
+        List<AnnouncementReadResponse> announcementReadResponses = readAnnouncementByUserId(userId);
+        for (AnnouncementReadResponse announcementReadResponse : announcementReadResponses) {
+            if (announcementReadResponse.getId().equals(announcementId)) {
+
+                Announcement announcement = new Announcement.Builder()
+                        .setId(announcementReadResponse.getId())
+                        .setType(announcementReadResponse.getType())
+                        .setTitle(announcementReadResponse.getTitle())
+                        .setDescription(announcementReadResponse.getDescription())
+                        .build();
+                announcementList.remove(announcement);
+            }
+        }
+
+
+    }
+
+    public List<AnnouncementReadResponse> readAnnouncementByUserId(Long userId) {
+        for (User user : users) {
+            if (!user.getId().equals(userId)) {
+                throw new UserNotFoundException(AnnouncementConstraint.user_not_found);
+            }
+
+            List<AnnouncementReadResponse> userAnnouncement = new ArrayList<>();
+            for (Announcement announcement : announcementList) {
+                if (announcement.getUserId().equals(userId)) {
+                    AnnouncementReadResponse announcementReadResponse = new AnnouncementReadResponse();
+                    announcementReadResponse.setId(announcement.getId());
+                    announcementReadResponse.setType(announcement.getType());
+                    announcementReadResponse.setTitle(announcement.getTitle());
+                    announcementReadResponse.setDescription(announcement.getDescription());
+                    userAnnouncement.add(announcementReadResponse);
+                }
+            }
+            return userAnnouncement;
+        }
+        return null;
+    }
+    // elanin tipine gore elanlari qaytarmaq;
 
 
 }
