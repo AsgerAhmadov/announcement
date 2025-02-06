@@ -10,6 +10,7 @@ public class Announcement {
     private String description;
     private AnnouncementType type;
     private LocalDateTime createdAt;
+    private Long userId;
 
     private Announcement(Builder builder) {
         this.createdAt = builder.createdAt;
@@ -17,13 +18,17 @@ public class Announcement {
         this.id = builder.id;
         this.title = builder.title;
         this.type = builder.type;
+        this.userId = builder.userId;
     }
 
     @Override
     public String toString(){
-        return "Announcement : " + id + " " + title + " " + description + " " + type + " " + createdAt;
+        return "Announcement : " + id + " " + title + " " + description + " " + type + " " + createdAt + " " + userId;
     }
 
+    public Long getUserId(){
+        return userId;
+    }
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -50,6 +55,7 @@ public class Announcement {
         private String description;
         private AnnouncementType type;
         private LocalDateTime createdAt;
+        private Long userId;
 
         public Builder setCreatedAt(LocalDateTime createdAt) {
             this.createdAt = createdAt;
@@ -66,6 +72,11 @@ public class Announcement {
             this.id = id;
             return this;
 
+        }
+
+        public Builder setUserId(Long userId){
+            this.userId = userId;
+            return  this;
         }
 
         public Builder setTitle(String title) {
