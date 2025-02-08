@@ -65,7 +65,6 @@ public class CommonService {
     }
 
 
-
     public static List<UserReadResponse> findAll() {
         if (users.isEmpty()) {
             throw new UserNotFoundException(AnnouncementConstraint.user_not_found);
@@ -237,7 +236,22 @@ public class CommonService {
         }
         return null;
     }
-    // elanin tipine gore elanlari qaytarmaq;
 
+    // elanin tipine gore elanlari qaytarmaq;
+    public List<AnnouncementReadResponse> readAnnouncementByType(String type) {
+        List<AnnouncementReadResponse> filterAnnouncement = new ArrayList<>();
+
+        AnnouncementReadResponse readResponse = new AnnouncementReadResponse();
+        if (readResponse.getType().name().equals(type)) {
+            for (Announcement announcement : announcementList) {
+                readResponse.setId(announcement.getId());
+                readResponse.setType(announcement.getType());
+                readResponse.setTitle(announcement.getTitle());
+                readResponse.setDescription(announcement.getDescription());
+                filterAnnouncement.add(readResponse);
+            }
+        }
+        return filterAnnouncement;
+    }
 
 }
