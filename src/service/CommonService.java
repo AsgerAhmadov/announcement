@@ -6,6 +6,7 @@ import entity.User;
 import entity.enums.AnnouncementType;
 import exception.AnnouncementNotFoundException;
 import exception.UserNotFoundException;
+import mapper.UserMapperUtil;
 import model.announcement.request.AnnouncementCreateRequest;
 import model.announcement.response.AnnouncementCreateResponse;
 import model.announcement.request.AnnouncementUpdateRequest;
@@ -28,24 +29,11 @@ public class CommonService {
 
 
     public UserCreateResponse registerUser(UserCreateRequest createRequest) {
-        User user = new User.Builder()
-                .setId(createRequest.getId())
-                .setAge(createRequest.getAge())
-                .setEmail(createRequest.getEmail())
-                .setUsername(createRequest.getUsername())
-                .setPassword(createRequest.getPassword())
-                .build();
-
+        User user = UserMapperUtil.userCreateRequestToEntity(createRequest);
 
         users.add(user);
-        UserCreateResponse createResponse = new UserCreateResponse.Builder()
-                .setAge(user.getAge())
-                .setEmail(user.getEmail())
-                .setId(user.getId())
-                .setUsername(user.getUsername())
-                .build();
 
-        return createResponse;
+        return UserMapperUtil.entityToCreateResponse(user);
     }
 
     public UserReadResponse readUser(Long id) {
