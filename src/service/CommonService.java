@@ -6,6 +6,7 @@ import entity.User;
 import entity.enums.AnnouncementType;
 import exception.AnnouncementNotFoundException;
 import exception.UserNotFoundException;
+import mapper.AnnouncementMapperUtil;
 import mapper.UserMapperUtil;
 import model.announcement.request.AnnouncementCreateRequest;
 import model.announcement.response.AnnouncementCreateResponse;
@@ -33,21 +34,17 @@ public class CommonService {
 
         users.add(user);
 
+
         return UserMapperUtil.entityToCreateResponse(user);
     }
 
     public UserReadResponse readUser(Long id) {
         for (User user : users) {
-            if (user.getId() != id) {
+            if (!user.getId().equals(id)) {
                 throw new UserNotFoundException(AnnouncementConstraint.user_not_found);
             }
-            UserReadResponse userReadResponse = new UserReadResponse.Builder()
-                    .setId(user.getId())
-                    .setUsername(user.getUsername())
-                    .setEmail(user.getEmail())
-                    .build();
 
-            return userReadResponse;
+            return UserMapperUtil.entityToReadResponse(user);
         }
         return null;
     }
@@ -73,22 +70,12 @@ public class CommonService {
 
         UserReadResponse user = readUser(userId);
         if (user != null) {
-            Announcement announcement = new Announcement.Builder()
-                    .setId(createRequest.getId())
-                    .setDescription(createRequest.getDescription())
-                    .setType(AnnouncementType.SPORT)
-                    .setTitle(createRequest.getTitle())
-                    .setCreatedAt(LocalDateTime.now())
-                    .build();
+            Announcement announcement = AnnouncementMapperUtil.announcementCreateRequestToEntity(createRequest);
+
             announcementList.add(announcement);
 
-            AnnouncementCreateResponse announcementCreateResponse = new AnnouncementCreateResponse.Builder()
-                    .setDescription(announcement.getDescription())
-                    .setTitle(announcement.getTitle())
-                    .setType(announcement.getType())
-                    .setCreatedAt(announcement.getCreatedAt())
-                    .build();
-            return announcementCreateResponse;
+            return AnnouncementMapperUtil.entityToAnnouncementCreateResponse(announcement);
+
         }
         throw new UserNotFoundException(AnnouncementConstraint.user_not_found);
     }
@@ -123,16 +110,12 @@ public class CommonService {
 
     public AnnouncementReadResponse readAnnouncement(Long id) {
         for (Announcement announcement : announcementList) {
-            if (announcement.getId() != id) {
+            if (!announcement.getId().equals(id)) {
                 throw new AnnouncementNotFoundException(AnnouncementConstraint.announcement_not_found);
             }
-            AnnouncementReadResponse readResponse = new AnnouncementReadResponse();
-            readResponse.setId(announcement.getId());
-            readResponse.setDescription(announcement.getDescription());
-            readResponse.setTitle(announcement.getTitle());
-            readResponse.setType(announcement.getType());
 
-            return readResponse;
+        return AnnouncementMapperUtil.entityToAnnouncementReadResponse(announcement);
+
         }
         return null;
     }
@@ -158,7 +141,7 @@ public class CommonService {
         AnnouncementReadResponse readResponse = readAnnouncement(id);
 
         for (Announcement announcement : announcementList) {
-            if (announcement.getId() == readResponse.getId()) {
+            if (announcement.getId().equals(readResponse.getId())) {
                 announcementList.remove(announcement);
             }
         }
@@ -225,7 +208,6 @@ public class CommonService {
         return null;
     }
 
-    // elanin tipine gore elanlari qaytarmaq;
     public List<AnnouncementReadResponse> readAnnouncementByType(String type) {
         List<AnnouncementReadResponse> filterAnnouncement = new ArrayList<>();
 
