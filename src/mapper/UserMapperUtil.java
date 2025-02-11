@@ -1,13 +1,9 @@
 package mapper;
-
-import entity.Announcement;
 import entity.User;
-import entity.enums.AnnouncementType;
 import model.user.request.UserCreateRequest;
 import model.user.response.UserCreateResponse;
 import model.user.response.UserReadResponse;
 
-import java.time.LocalDateTime;
 
 public class UserMapperUtil {
 
@@ -33,6 +29,14 @@ public class UserMapperUtil {
                 .setEmail(user.getEmail())
                 .setId(user.getId())
                 .setUsername(user.getUsername())
+                .build();
+    }
+
+    public static UserReadResponse entityToReadResponse(User user) {
+        return new UserReadResponse.Builder()
+                .setId(user.getId())
+                .setUsername(user.getUsername())
+                .setEmail(user.getEmail())
                 .build();
     }
 }
