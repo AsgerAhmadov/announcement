@@ -41,17 +41,25 @@ public class UserMapperUtil {
                 .setEmail(user.getEmail())
                 .build();
     }
-    public static User userUpdateRequest(UserUpdateRequest updateRequest){
-        return  null;
+
+    public static User updateRequestToEntity (UserUpdateRequest updateRequest){
+        return  new User.Builder()
+                .setAge(updateRequest.getAge())
+                .setEmail(updateRequest.getEmail())
+                .setUsername(updateRequest.getUsername())
+                .setPassword(updateRequest.getPassword())
+                .build();
     }
 
-    public static UserUpdateResponse userUpdateResponse(User updatedUser){
-        UserUpdateResponse response = new UserUpdateResponse();
-        response.setAge(updatedUser.getAge());
-        response.setEmail(updatedUser.getEmail());
-        response.setId(updatedUser.getId());
-        response.setUsername(updatedUser.getUsername());
+  public static UserUpdateResponse entityToUpdateResponse (User user){
 
+        UserUpdateResponse response = new UserUpdateResponse();
+        response.setAge(user.getAge());
+        response.setEmail(user.getEmail());
+        response.setId(user.getId());
+        response.setUsername(user.getUsername());
         return  response;
     }
+    
 }
+
