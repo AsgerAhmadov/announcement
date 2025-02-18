@@ -41,6 +41,7 @@ public class UserMapperUtil {
                 .setEmail(user.getEmail())
                 .build();
     }
+
     public static User updateRequestToEntity (UserUpdateRequest updateRequest){
         return  new User.Builder()
                 .setAge(updateRequest.getAge())
@@ -50,7 +51,7 @@ public class UserMapperUtil {
                 .build();
     }
 
-    public static UserUpdateResponse entityToUpdateResponse (User user){
+  public static UserUpdateResponse entityToUpdateResponse (User user){
 
         UserUpdateResponse response = new UserUpdateResponse();
         response.setAge(user.getAge());
@@ -59,4 +60,6 @@ public class UserMapperUtil {
         response.setUsername(user.getUsername());
         return  response;
     }
+    
 }
+
