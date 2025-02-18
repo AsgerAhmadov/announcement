@@ -77,21 +77,12 @@ public class CommonService {
     }
 
     public UserUpdateResponse updateUser(UserUpdateRequest updateRequest, Long id) {
+
         UserReadResponse foundUser = readUser(id);
-        UserReadResponse updatedUser = new UserReadResponse.Builder()
-                .setId(foundUser.getId())
-                .setAge(updateRequest.getAge())
-                .setEmail(updateRequest.getEmail())
-                .setUsername(updateRequest.getUsername())
-                .build();
+        User user = UserMapperUtil.updateRequestToEntity(updateRequest);
+        user.setId(foundUser.getId());
 
-        UserUpdateResponse response = new UserUpdateResponse();
-        response.setAge(updatedUser.getAge());
-        response.setEmail(updatedUser.getEmail());
-        response.setId(updatedUser.getId());
-        response.setUsername(updatedUser.getUsername());
-
-        return response;
+        return  UserMapperUtil.entityToUpdateResponse(user);
     }
 
     public void deleteUser(Long id) {
@@ -121,10 +112,7 @@ public class CommonService {
         Announcement announcement = AnnouncementMapperUtil.updateRequestToEntity(request);
         announcement.setId(readResponse.getId());
 
-        AnnouncementUpdateResponse updateResponse =
-                AnnouncementMapperUtil.entityToUpdateResponse(announcement);
-
-        return updateResponse;
+        return  AnnouncementMapperUtil.entityToUpdateResponse(announcement);
     }
 
     public void deleteAnnouncement(Long id) {

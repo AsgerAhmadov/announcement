@@ -91,6 +91,11 @@ public class User {
         public User build() {
             return new User(this);
         }
+
+
+    }
+    public void setId(Long id) {
+        this.id = id;
     }
 }
 
