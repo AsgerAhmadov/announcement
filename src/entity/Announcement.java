@@ -94,6 +94,9 @@ public class Announcement {
             return new Announcement(this);
         }
     }
+    public void setId(Long id){
+        this.id = id;
+    }
 }
 
 

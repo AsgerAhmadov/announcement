@@ -1,8 +1,10 @@
 package mapper;
 import entity.User;
 import model.user.request.UserCreateRequest;
+import model.user.request.UserUpdateRequest;
 import model.user.response.UserCreateResponse;
 import model.user.response.UserReadResponse;
+import model.user.response.UserUpdateResponse;
 
 
 public class UserMapperUtil {
@@ -38,5 +40,23 @@ public class UserMapperUtil {
                 .setUsername(user.getUsername())
                 .setEmail(user.getEmail())
                 .build();
+    }
+    public static User updateRequestToEntity (UserUpdateRequest updateRequest){
+        return  new User.Builder()
+                .setAge(updateRequest.getAge())
+                .setEmail(updateRequest.getEmail())
+                .setUsername(updateRequest.getUsername())
+                .setPassword(updateRequest.getPassword())
+                .build();
+    }
+
+    public static UserUpdateResponse entityToUpdateResponse (User user){
+
+        UserUpdateResponse response = new UserUpdateResponse();
+        response.setAge(user.getAge());
+        response.setEmail(user.getEmail());
+        response.setId(user.getId());
+        response.setUsername(user.getUsername());
+        return  response;
     }
 }
